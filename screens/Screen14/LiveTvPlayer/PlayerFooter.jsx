@@ -84,7 +84,7 @@ const date = currentDate.toLocaleString('tr-TR', options)
       setChannelID(currentChannel['tvg-name']?.trim())
       setVisiblePinModal(true)
     }
-    else if(button?.title==='Favorite')
+    else if(button?.title===t('favorite'))
       addToFavorite()
     else
       navigation.goBack()
