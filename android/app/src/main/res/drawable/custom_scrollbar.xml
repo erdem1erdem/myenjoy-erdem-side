@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#fff" /> <!-- Your desired scrollbar color -->
+    <corners android:radius="4px" />  <!-- Optional: set the corner radius -->
+</shape>

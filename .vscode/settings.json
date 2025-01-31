@@ -1,0 +1,5 @@
+{
+    "scm.alwaysShowActions": false,
+    "debug.disassemblyView.showSourceCode": true,
+    "java.compile.nullAnalysis.mode": "automatic"
+}
