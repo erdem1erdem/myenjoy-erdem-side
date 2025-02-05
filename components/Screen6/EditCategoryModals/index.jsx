@@ -10,6 +10,7 @@ const EditCategoryModals = ({ toggleModal }) => {
     const [items, setItems] = useState([
         'Netflix 2021 Films', 'Netflix 2021 Films', 'Netflix 2021 Films', 'Netflix 2021 Films', 'Netflix 2021 Films', 'Netflix 2021 Films', 'Netflix 2021 Films', '2015 films', '2015 films'
     ])
+    const [hiddenItems, setHiddenItems] = useState([])
 
     const handleItemPress = (index) => {
         setActiveb(index)
@@ -24,10 +25,18 @@ const EditCategoryModals = ({ toggleModal }) => {
 
     const handleRemove = () => {
         const updatedItems = items.filter((_, index) => !categ.includes(index))
+        const removedItems = items.filter((_, index) => categ.includes(index))
         setItems(updatedItems)
+        setHiddenItems([...hiddenItems, ...removedItems])
         setCateg([])
         setActiveb(-1)
     }
+
+    const handleRestore = () => {
+        setItems([...items, ...hiddenItems])
+        setHiddenItems([])
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -114,6 +123,25 @@ const EditCategoryModals = ({ toggleModal }) => {
                 </TouchableHighlight>
                 <Text style={{ fontSize: 12, color: 'white',fontWeight:'600' }}>
                             Hide Category
+                        </Text>
+                </View>
+                <View style={{alignItems:'center'}}>
+                <TouchableHighlight
+                underlayColor='#F83605'
+                    onPress={handleRestore}
+                    onFocus={() => { setActiveheader(2) }}
+                    onBlur={() => { setActiveheader(null) }}
+                     style={[styles.touchablestyle,{backgroundColor:activeheader === 2 ?'#F83605':'#3C3F45'}]}
+                >
+                    <View style={{ alignItems: 'center'}} >
+                    <View style={{alignItems:'center'}}>
+                                <Icon name='eye-outline' type="ionicon" size={18} color="white" />
+                            </View>
+                       
+                    </View>
+                </TouchableHighlight>
+                <Text style={{ fontSize: 12, color: 'white',fontWeight:'600' }}>
+                            Restore Category
                         </Text>
                 </View>
             </View>
@@ -203,5 +231,4 @@ modalText: {
 
 })
 
-export { EditCategoryModals}
-
+export { EditCategoryModals }

@@ -9,12 +9,10 @@ import { Icon } from 'react-native-elements'
 import { apiCalls } from '../../shared/apiCalls'
 import { actionsApi } from '../../shared'
 import { myStyle } from '../../data'
-import { useTranslation } from 'react-i18next'
 
 const PlayerScreen = ({currentTime, duration, paused, jumpForward, jumpBackward, onSliderChange, playpause,restartVideo, playDetail,setSelectedTextTrack,audioTracks,textTracks, setSelectedAudioTrack}) => {
   
   const dispatch= useDispatch()
-  const { t } = useTranslation()
   const {isFavorite, moviesFavorite, seriesFavorite} = useSelector((state) => state?.other)
   const {value: category}= useSelector(state => state?.category)
   const {currentMedia, portalid: portalID} = useSelector((state) => state?.portals)
@@ -23,7 +21,7 @@ const PlayerScreen = ({currentTime, duration, paused, jumpForward, jumpBackward,
   const [playbutton, setplaybutton] = useState(null)
   const buttons = [
     {
-      title: t('favorite'), 
+      title: 'Favorite', 
       iconname:'heart-outline',
       onPress: () => addToFavorite()
     },
@@ -33,17 +31,17 @@ const PlayerScreen = ({currentTime, duration, paused, jumpForward, jumpBackward,
     //   onPress: () => {toggleEpisodeModal()}
     // },
     {
-      title: t('restart'), 
+      title: 'Restart', 
       iconname:'refresh-outline',
       onPress: () =>{restartVideo()}
     },
     {
-      title: t('audio'),
+      title: 'Audio Tracks',
       iconname:'musical-note-outline',
       onPress: () => {setVisible(true); }
     },
     {
-      title: t('subtitles'),
+      title: 'Subtitle',
       iconname:'language-outline',
       onPress: () => {setVisibleSound(true); }
     }

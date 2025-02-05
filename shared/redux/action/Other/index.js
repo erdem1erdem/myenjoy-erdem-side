@@ -69,6 +69,7 @@ export const getLockedChannels = createAsyncThunk(
     fetch(domainUrl + '/getLockChannels', requestOptions)
       .then(response => response.json())
       .then(result => {
+        console.log("lockedChannelsResponse",result?.data)
         if (result?.success) dispatch(lockedChannelsResponse(result?.data));
         else throw result?.message;
       })

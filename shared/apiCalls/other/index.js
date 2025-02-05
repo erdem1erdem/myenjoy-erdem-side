@@ -1,6 +1,7 @@
 import { domainUrl } from "../../constants"
 
 const addHiddenCategories= (payload)=>{
+    console.log("Payload:",payload)
     
     var myHeaders = new Headers()
     myHeaders.append("Content-Type", "application/json")       
@@ -47,6 +48,8 @@ const addToFavorite= (payload)=>{
     })
 }
 const lockUnLockChannel= (payload)=>{
+
+    console.log("Lock Channel Payload:",payload)
     
     var myHeaders = new Headers()
     myHeaders.append("Content-Type", "application/json")       

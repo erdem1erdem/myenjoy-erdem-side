@@ -1,102 +1,89 @@
 import React, { useState } from 'react';
-import { Image, Modal, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { Image, Modal, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View, FlatList } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { useTranslation } from 'react-i18next';
-import Video,{SelectedTrackType,textTracksSelectionBy} from 'react-native-video'
-const LanguageModal = ({ visiblesound, onClose, setSelectedTextTrack,subtitle }) => {
-    const { t } = useTranslation();
-    const [activeradio, setactiveradio] = useState(null)
-    const [actbutton, setactbutton] = useState(null)
-    const [checked, setChecked] = useState(null)
-    // const data = [
-    //     {
-    //         label: 'None'
-    //     },
-    //     {
-    //         label: 'Audio'
-    //     },
-    //     {
-    //         label: 'English'
-    //     },
-        
-        
-    // ]
+import Video, { SelectedTrackType, textTracksSelectionBy } from 'react-native-video';
 
-    const handleRadioPress = (index,item) => {
-     
+const LanguageModal = ({ visiblesound, onClose, setSelectedTextTrack, subtitle }) => {
+    const { t } = useTranslation();
+    const [activeradio, setactiveradio] = useState(null);
+    const [actbutton, setactbutton] = useState(null);
+    const [checked, setChecked] = useState(null);
+
+    const handleRadioPress = (index, item) => {
         if (index === checked) {
-        
             setChecked(null);
         } else {
             setChecked(index);
-            setSelectedTextTrack(item?.id)
+            setSelectedTextTrack(item?.id);
         }
-    }
-    
+    };
+
+    const renderItem = ({ item, index }) => (
+        <TouchableHighlight
+            key={index}
+            onFocus={() => { setactiveradio(index); }}
+            onBlur={() => { setactiveradio(null); }}
+            onPress={() => handleRadioPress(index, item)}
+            underlayColor='transparent'
+        >
+            <View style={styles.innerview}>
+                <RadioButton
+                    value={checked}
+                    status={checked === index ? 'checked' : 'unchecked'}
+                    onPress={() => setChecked(index)}
+                    color='#fff'
+                />
+                <Text style={[styles.label, { color: activeradio === index ? '#F83605' : 'white' }]}>{item?.name}</Text>
+            </View>
+        </TouchableHighlight>
+    );
+
     return (
         <View style={styles.centeredView}>
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={visiblesound}
-                onRequestClose={onClose}>
+                onRequestClose={onClose}
+            >
                 <View style={styles.centeredView}>
-                    
                     <View style={styles.modalView}>
-                    <TouchableOpacity  onPress={onClose} style={styles.closebtn}>
-                        <Image source={require('../../../assets/icons/close.png')} style={{ width: 30, height: 30 }} />
-                    </TouchableOpacity>
-                    <View style={{alignItems:'center'}}>
+                        <TouchableOpacity onPress={onClose} style={styles.closebtn}>
+                            <Image source={require('../../../assets/icons/close.png')} style={{ width: 30, height: 30 }} />
+                        </TouchableOpacity>
+                        <View style={{ alignItems: 'center' }}>
                             <View style={styles.btun}>
                                 <Icon name='language-outline' type="ionicon" size={20} color="white" />
                             </View>
                             <Text style={styles.modalText}>{t('subtitles')}</Text>
                         </View>
 
+                        <View style={styles.radiocontainer}>
+                            <FlatList
+                                data={subtitle}
+                                renderItem={renderItem}
+                                keyExtractor={(item, index) => index.toString()}
+                            />
+                        </View>
 
-                            <View style={styles.radiocontainer}>
-                                {
-                                    subtitle?.map((item, index) =>
-                                        <TouchableHighlight 
-                                        key={index} 
-                                        onFocus={()=>{setactiveradio(index)}} 
-                                        onBlur={()=>{setactiveradio(null)}}
-                                        onPress={() => handleRadioPress(index,item)}
-                                        underlayColor='transparent'
-                                        
-                                        >
-                                            <View style={styles.innerview}>
-                                                <RadioButton
-                                                    value={checked}
-                                                    status={checked === index ? 'checked' : 'unchecked'}
-                                                    onPress={() => setChecked(index)}
-                                                    color='#fff'
-                                                />
-                                                <Text style={[styles.label , {color:activeradio===index?'#F83605':'white'}]}>{item?.name}</Text>
-                                               
-                                            </View>
-                                        </TouchableHighlight>
-                                    )
-                                }
-                            </View>
-                   
                         <View style={styles.bottombtn}>
-                            <TouchableHighlight 
-                            onFocus={()=> setactbutton(1)} 
-                            onBlur={()=> setactbutton(null)}
-                            onPress={() => { setactbutton(null); onClose(); }}
-                            style={[styles.btn, { backgroundColor: actbutton===1? '#F83605':'#3C3F45' }]}
-                            underlayColor='#F83605'
+                            <TouchableHighlight
+                                onFocus={() => setactbutton(1)}
+                                onBlur={() => setactbutton(null)}
+                                onPress={() => { setactbutton(null); onClose(); }}
+                                style={[styles.btn, { backgroundColor: actbutton === 1 ? '#F83605' : '#3C3F45' }]}
+                                underlayColor='#F83605'
                             >
                                 <Text style={styles.text}>{t('cancel')}</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
-                            underlayColor='#F83605'
-                            onFocus={()=>setactbutton(2)}
-                            onBlur={()=> setactbutton(null)}
-                            onPress={() => { setactbutton(null); onClose(); }}
-                            style={[styles.btn,  { backgroundColor: actbutton===2? '#F83605':'#3C3F45' }]}
+                                underlayColor='#F83605'
+                                onFocus={() => setactbutton(2)}
+                                onBlur={() => setactbutton(null)}
+                                onPress={() => { setactbutton(null); onClose(); }}
+                                style={[styles.btn, { backgroundColor: actbutton === 2 ? '#F83605' : '#3C3F45' }]}
                             >
                                 <Text style={styles.text}>{t('confirm')}</Text>
                             </TouchableHighlight>
@@ -135,7 +122,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '500',
         paddingTop: 5,
-        color:'#fff'
+        color: '#fff'
     },
     imgsize: {
         width: 30,
@@ -151,12 +138,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 5,
         gap: 10,
-        width:300
-
+        width: 300
     },
     label: {
         fontSize: 12,
-        color:'white'
+        color: 'white'
     },
     bottombtn: {
         flexDirection: 'row',
@@ -185,11 +171,11 @@ const styles = StyleSheet.create({
         right: 10,
         zIndex: 1,
     },
-    imgg:{
-        width:20,
-        height:20
-      },
-      btun: {
+    imgg: {
+        width: 20,
+        height: 20
+    },
+    btun: {
         alignItems: 'center',
         justifyContent: 'center',
         width: 35,

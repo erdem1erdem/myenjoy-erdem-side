@@ -80,7 +80,7 @@ const date = currentDate.toLocaleString('tr-TR', options)
   ]
 
   const handleButtonPress = (button) => {
-    if (button?.title==="Lock" || button?.title==='Unlock'){
+    if (button?.title===t('lock') || button?.title===t('unlock')){
       setChannelID(currentChannel['tvg-name']?.trim())
       setVisiblePinModal(true)
     }
